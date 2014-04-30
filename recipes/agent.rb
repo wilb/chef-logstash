@@ -147,7 +147,7 @@ end
 if node['logstash']['agent']['init_method'] == 'runit'
   runit_service 'logstash_agent'
 elsif node['logstash']['agent']['init_method'] == 'native'
-  if platform_family? 'debian'
+  if platform_family? 'ubuntu'
     if node['platform_version'] >= '12.04'
       template '/etc/init/logstash_agent.conf' do
         mode '0644'
@@ -182,7 +182,7 @@ elsif node['logstash']['agent']['init_method'] == 'native'
       provider Chef::Provider::Service::Systemd
       action [:enable, :start]
     end
-  elsif platform_family? 'rhel', 'fedora'
+  elsif platform_family? 'rhel', 'fedora', 'debian'
     template '/etc/init.d/logstash_agent' do
       source 'init.logstash_server.erb'
       owner 'root'
